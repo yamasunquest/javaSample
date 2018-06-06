@@ -1,0 +1,23 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    groupName: sunquest
+    name: temp2project
+
+zuul:
+  max:
+    host:
+      connections: 500
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+  forceOriginalQueryStringEncoding: true
+  add-host-header: true # 跳转携带origin
+  sensitiveHeaders:  # 过滤Authorization ，默认为Cookie, Set-Cookie, Authorization，此处放开cookie和Set-Cookie
+  routes:
+    search:
+      path: /test/**
+      url: http://localhost:8088/sample
+      stripPrefix: true
