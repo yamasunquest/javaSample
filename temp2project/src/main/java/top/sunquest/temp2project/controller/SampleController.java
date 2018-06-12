@@ -23,10 +23,30 @@ public class SampleController {
 		//ck.setMaxAge(100000);
 		//response.addCookie(ck);
 
-		Thread.sleep(5000);
-
-		Cookie[] c = request.getCookies();
-
 		return "sample";
+	}
+
+	@GetMapping("/setDevDomain")
+	public String setDevDomain(HttpServletResponse response,HttpServletRequest request) throws InterruptedException {
+
+		Cookie ck = new Cookie("token","devToken");
+		ck.setDomain("dev.sunquest.com");
+		ck.setPath("/");
+		ck.setMaxAge(100000);
+		response.addCookie(ck);
+
+		return "setDevDomain success";
+	}
+
+	@GetMapping("/setRootDomain")
+	public String setRootDomain(HttpServletResponse response,HttpServletRequest request) throws InterruptedException {
+
+		Cookie ck = new Cookie("token","rootToken");
+		ck.setDomain("sunquest.com");
+		ck.setPath("/");
+		ck.setMaxAge(100000);
+		response.addCookie(ck);
+
+		return "setRootDomain success";
 	}
 }
