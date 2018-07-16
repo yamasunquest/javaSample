@@ -11,6 +11,7 @@
 
   <modules>
     <module>temp2project</module>
+    <module>jvmCode</module>
   </modules>
 
   <parent>
