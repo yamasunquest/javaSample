@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bootCloud" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bootCloud/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jdkCode" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jdkCode/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jvmCode" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jvmCode/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/myLanguage" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/myLanguage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nettyCode" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nettyCode/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rxjava/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sensitiveWord/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/temp2project" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/temp2project/src/main/java" charset="UTF-8" />
+  </component>
+</project>

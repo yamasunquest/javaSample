@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bootCloud/bootCloud.iml" filepath="$PROJECT_DIR$/bootCloud/bootCloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-study.iml" filepath="$PROJECT_DIR$/java-study.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jdkCode/jdkCode.iml" filepath="$PROJECT_DIR$/jdkCode/jdkCode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jvmCode/jvmCode.iml" filepath="$PROJECT_DIR$/jvmCode/jvmCode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/myLanguage/myLanguage.iml" filepath="$PROJECT_DIR$/myLanguage/myLanguage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nettyCode/nettyCode.iml" filepath="$PROJECT_DIR$/nettyCode/nettyCode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rxjava/rxjava.iml" filepath="$PROJECT_DIR$/rxjava/rxjava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sensitiveWord/sensitiveWord.iml" filepath="$PROJECT_DIR$/sensitiveWord/sensitiveWord.iml" />
+      <module fileurl="file://$PROJECT_DIR$/temp2project/temp2project.iml" filepath="$PROJECT_DIR$/temp2project/temp2project.iml" />
+    </modules>
+  </component>
+</project>

@@ -4,106 +4,125 @@ import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.util.Queue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Scanner;
+import java.util.concurrent.*;
 
 public class ThreadNotifyOperation {
 	private static ExecutorService es  = Executors.newFixedThreadPool(2);
+	// 消息存储体，用于存储消息
 	public static Queue<String> mailQ  = new LinkedBlockingQueue<>();
 
-	//private static PipedOutputStream checkPos = new PipedOutputStream();
-	private static PipedInputStream checkPis = new PipedInputStream();
+	public static void main(String args[]) throws IOException {
+		SendThread sendThread = new SendThread(mailQ);
+		ReceiveThread receiveThread = new ReceiveThread(mailQ);
 
-	private static PipedOutputStream mailPos = new PipedOutputStream();
+		PipedOutputStream out = sendThread.getOutputPiped();
+		PipedInputStream in = receiveThread.getInputPiped();
+		out.connect(in);
+
+		// 线程加入队列
+		es.submit(sendThread);
+		Future<String> result = es.submit(receiveThread);
+
+		// 接受线程结束后，结束主线程
+		while(true){
+			if (result.isDone()){
+				break;
+			}
+
+			Scanner input=new Scanner(System.in);
+			String str=input.nextLine();
+			mailQ.add(str);
+		}
+
+		es.shutdown();
+		out.close();
+		in.close();
+		System.out.println("886");
+
+
+	}
+}
+
+/**
+ * 接收，输出消息的线程
+ */
+class ReceiveThread implements Callable<String> {
+	//输入管道
+	private PipedInputStream inputPiped = new PipedInputStream();
+
+	Queue<String> mailQ;
+	public PipedInputStream getInputPiped() {
+		return inputPiped;
+	}
+
+	public ReceiveThread(Queue<String> mailQ){
+		this.mailQ = mailQ;
+	}
+
+	@Override
+	public String call() throws Exception {
+		String mail = "";
+		byte[] buf = new byte[1024];
+
+		while(true){
+			try {
+				// 接收消息，并且打印
+				int len = inputPiped.read(buf);
+				mail = new String(buf, 0, len);
+				System.out.println(mail);
+
+				// 如果接收到的消息是 end 结束进程
+				if (mail.equalsIgnoreCase("end")){
+					System.out.println("ReceiveThread finish.");
+					return "end";
+				}
+
+			} catch (IOException ex) {
+				System.out.println(ex.getMessage());
+			}
+		}
+	}
+}
+
+/**
+ * 生成，发送消息的线程
+ */
+class SendThread implements Runnable{
+	//输出管道
+	private PipedOutputStream outputPiped = new PipedOutputStream();
 	//private static PipedInputStream mailPis = new PipedInputStream();
 
-	public Runnable checkThread(){
-		return new Runnable() {
-			@Override
-			public void run() {
-				int i = 0;
+	public Queue<String> mailQ;
 
-				while(i < 3){
-					try {
-						Thread.sleep(1000);
-					}catch (Exception e){
-					}
-
-					try {
-						byte[] inbyte = new byte[4];
-						checkPis.read(inbyte);
-						if("decr".equalsIgnoreCase(new String(inbyte))){
-							i = 0;
-						}
-					}catch (Exception e){
-					}
-
-					System.out.println("timeCount value is :" + i);
-				}
-
-				System.out.println("send stop command");
-				mailQ.add("stop");
-				System.out.println("timeCount quit");
-			}
-		};
+	public PipedOutputStream getOutputPiped() {
+		return outputPiped;
 	}
 
-	public Runnable mailThread(){
-		return new Runnable() {
-			@Override
-			public void run() {
-				String mail = "";
-
-				while(true){
-					//watch
-					if(mailQ.iterator().hasNext()){
-						mail =mailQ.iterator().next();
-					}else{
-						continue;
-					}
-
-					if(mail.equalsIgnoreCase("stop")){
-						//unwatch
-						break;
-					}else if(mail.length() > 0){
-						try {
-							Thread.sleep(1000);
-						}catch (Exception e){
-						}
-
-						System.out.println(mail);
-						mailQ.remove();
-						try{
-							mailPos.write("decr".getBytes());
-						}catch (Exception e){
-						}
-					}
-				}
-
-				System.out.println("mail send was finished.");
-			}
-		};
+	public SendThread(Queue<String> mailQ){
+		this.mailQ = mailQ;
 	}
 
-	public static void main(String args[]) throws IOException {
+	@Override
+	public void run() {
+		// 预先生成一部分数据
 		mailQ.add("mail-1");
 		mailQ.add("mail-2");
 		mailQ.add("mail-3");
-		mailQ.add("mail-4");
-		mailQ.add("mail-5");
-		mailQ.add("mail-6");
 
-		checkPis.connect(mailPos);
+		while(mailQ.size() > 0){
+			try {
+				Thread.sleep(5000);
+			}catch (Exception e){
+			}
 
-		ThreadOperation to = new ThreadOperation();
-		es.submit(to.checkThread());
-		es.submit(to.mailThread());
+			try {
+				// 把数据写入到通道中，发送出去
+				outputPiped.write(mailQ.poll().getBytes());
+			}catch (Exception e){
+			}
+		}
 
-		es.shutdown();
-
-		checkPis.close();
-		mailPos.close();
-		System.out.println("asd");
-	}
+		System.out.println("SendThread finish.");
+	};
 }
